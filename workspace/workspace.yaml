@@ -1,0 +1,8 @@
+version: "1"
+
+modules:
+  github.com/alexandremahdhaoui/opends-spec:
+    path: ./opends-spec
+    version: v0.1.0
+    specs:
+      - spec/opends.v1.yaml
