@@ -788,6 +788,22 @@ reproducing the staleness on demand (rename a test, rebuild in place, watch
 the old name still run and fail) and then confirming a deleted-first rebuild
 picks up the rename correctly, three times in a row.
 
+**Deleting the `.exe` alone stopped being enough at some point.** Chasing a
+single-instance-mutex test that failed in a way its own current source could
+not produce, the panic even reported the WRONG LINE NUMBER for the assert
+that fired, off by the exact number of lines added since an earlier edit.
+`strings` on the freshly built exe proved new debug text really was in the
+binary, yet a `std::fs::write` placed right beside the failing check never
+produced a file anywhere on the Windows side, and the reported panic
+location kept pointing at stale code no matter how many times the `.exe`
+was deleted and rebuilt. `rm -rf
+target/x86_64-pc-windows-gnu/debug/incremental` in addition to deleting the
+`.exe` was what actually broke it: the very next build, from a clean
+incremental cache, passed on the first try with the fix that had been
+correct all along. If a Windows test result looks impossible given the
+current source, and deleting the exe alone did not fix it, wipe the
+incremental directory too before trusting anything else about the failure.
+
 ## Windows traps
 
 **A windows subsystem exe has no stdout.** `AttachConsole` alone is not enough.
