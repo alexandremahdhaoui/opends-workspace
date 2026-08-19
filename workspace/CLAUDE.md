@@ -1,7 +1,8 @@
 # CLAUDE.md — opends workspace
 
-A Rust rewrite of DS4Windows. Read a DualSense or a DualShock 4 on Windows. Map
-it. Present it to games as an Xbox pad.
+A Rust implementation, independent from DS4Windows, of the same idea. Read a
+DualSense or a DualShock 4 on Windows. Map it. Present it to games as an Xbox
+pad.
 
 Read `~/.claude/CLAUDE.md` first. Those rules apply here.
 
@@ -434,7 +435,7 @@ Horizon 6. Tested 2026-08-17. That is why the driver is the finish line.
 
 | Repo | Use |
 |---|---|
-| `hbashton_DS4Windows` | Port from this. 281 files. 160438 lines. The only fork still moving. |
+| `hbashton_DS4Windows` | Reference for behavior parity. 281 files. 160438 lines. The only fork still moving. |
 | `ds4windowsapp_DS4Windows` | Cross checks only. Stale. |
 | `jays2kings_ds4windows` | History only. Dead since 2021. |
 | `cgutman_WinUHid` | The driver design. MIT. Read, never built, never run. |
@@ -444,7 +445,12 @@ Horizon 6. Tested 2026-08-17. That is why the driver is the finish line.
 empty class. It does not compile. Adaptive triggers come from DS4Windows
 `TriggerEffects.cs` instead.
 
-The port is GPL-3.0 because DS4Windows is. That is not a choice we get to make.
+This is a new, independent codebase, not a fork of DS4Windows. `reference/` is
+read only and never built, copied, or executed, and every behavior we match is
+proven by our own cited unit test against a specific reference file:line, not
+by carrying code across. Decided 2026-08-19: licensed under Apache License 2.0
+across all five repos, superseding the earlier GPL-3.0 assumption recorded
+2026-08-17. See `FOLLOWUP.md`'s Decided section for the correction.
 
 ## Build and test
 
